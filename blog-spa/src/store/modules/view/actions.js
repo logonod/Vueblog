@@ -1,4 +1,5 @@
 import axios from 'axios'
+import router from '../../../router'
 
 export default {
   getPostItems ({ commit }, {user}) {
@@ -15,8 +16,13 @@ export default {
   },
   removePost ({ commit }, {id}) {
     axios.delete(`/api/posts/${id}`).then((response) => {
+      commit('REMOVE_POST_ITEM', {id})
+    })
+  },
+  createPost ({ commit }, {user}) {
+    axios.post(`/api/users/${user}`).then((response) => {
       console.log(response.data)
-      // commit('UPDATE_POST_ITEMS', {posts})
+      router.push({ path: `/${user}/${response.data.ops[0].id}/edit` })
     })
   }
 }

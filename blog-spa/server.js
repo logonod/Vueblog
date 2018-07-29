@@ -64,6 +64,48 @@ app.put('/users/:user/:post', (req, res) => {
   });
 });
 
+app.post('/users/:user', (req, res) => {
+  const user = req.params.user;
+
+  const MongoClient = require('mongodb').MongoClient;
+  const url = 'mongodb://localhost:27017/blogDB';
+
+  MongoClient.connect(url, { useNewUrlParser: true }, function(err, db) {
+      if (err) throw err;
+      const dbo = db.db('blogDB');
+      const whereStr = {"user": user};
+      let id = '00001';
+      dbo.collection("post").find(whereStr)
+      .sort({id: -1}).limit(1)
+      .toArray(function(err, result) {
+        if (err) throw err;
+        if (result.length !== 0) {
+          id = result[0].id;
+          let incrementvalue = (+id) + 1;
+          id = ("00000" + incrementvalue).slice(-5);
+        }
+        const author = '刘泽宇';
+        const newPost = {
+          title: "点击修改标题",
+          date: new Date(),
+          url: `/${user}/${id}`,
+          user: user,
+          id: id,
+          author: author,
+          markdown: '',
+          content: '',
+          summary: ''
+        }
+        dbo.collection("post").insert(newPost, function(err, result) {
+          if (err) throw err;
+          res.setHeader('Cache-Control', 'no-cache');
+          res.json(result);
+          db.close();
+        });
+      })
+  });
+});
+
 app.delete('/posts/:post', (req, res) => {
   const post = req.params.post;
 

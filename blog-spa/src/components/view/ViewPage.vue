@@ -13,7 +13,7 @@
           </router-link>
         </li>
         <li class="list-item">
-          <a href="#" class="item-link">发布</a>
+          <a href="#" class="item-link" @click="createPost">发布</a>
         </li>
         <li class="list-item">
           <router-link to="/login" class="item-link">
@@ -96,7 +96,7 @@ export default {
   },
   computed: {
     ...mapGetters([
-
+      'newPostID'
     ])
   },
   methods: {
@@ -121,14 +121,12 @@ export default {
         }
       }, 16)
     },
-    updateInitialState () {
-      // const user = this.userName
-      // this.$store.dispatch('getEditPost', {user, post})
+    createPost () {
+      this.$store.dispatch('createPost', {user: this.userName})
     }
   },
   created () {
     NProgress.start()
-    this.updateInitialState()
   },
   mounted () {
     let that = this
