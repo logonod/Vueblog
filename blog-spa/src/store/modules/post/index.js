@@ -8,7 +8,6 @@ const state = {
     title: '',
     date: '',
     url: '',
-    user: '',
     id: '',
     author: '',
     markdown: '',

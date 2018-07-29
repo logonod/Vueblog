@@ -4,11 +4,11 @@
     <div class="header-container">
       <a class="home-link" href="/">
         <div class="logo"></div>
-        <span>{{userName}}</span>
+        <span>刘泽宇</span>
       </a>
       <ul class="right-list">
         <li class="list-item">
-          <router-link :to="`/${this.userName}`" class="item-link active">
+          <router-link to="/" class="item-link active">
             文章
           </router-link>
         </li>
@@ -57,7 +57,7 @@
   </header>
   <main :class="{ 'hidden' : contentHidden,
   'app-body': true}">
-    <ArticleCardList :userName="userName" />
+    <ArticleCardList />
   </main>
   <div :class="{ 'opacity' : topButtonHidden, 'scroll-top': true}"
    @click="scrollToTop">
@@ -82,7 +82,7 @@ import ArticleCardList from './ArticleCardList'
 
 export default {
   name: 'ViewPage',
-  props: ['userName'],
+  props: [],
   components: {
     ArticleCardList
   },
@@ -122,7 +122,7 @@ export default {
       }, 16)
     },
     createPost () {
-      this.$store.dispatch('createPost', {user: this.userName})
+      this.$store.dispatch('createPost')
     }
   },
   created () {

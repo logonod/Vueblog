@@ -20,8 +20,8 @@ var remark = require('remark')
 var strip = require('strip-markdown')
 
 export default {
-  getEditPost ({ commit }, {user, post}) {
-    axios.get(`/api/users/${user}/${post}`).then((response) => {
+  getEditPost ({ commit }, {post}) {
+    axios.get(`/api/post/${post}`).then((response) => {
       let editPost = response.data
       const date = new Date(editPost.date)
       editPost.date =
@@ -42,8 +42,8 @@ export default {
           String(file).substring(0, 160) + '...'})
       })
   },
-  postEditPost ({ commit, state }, {user, post}) {
-    axios.put(`/api/users/${user}/${post}`, state.editPost)
+  postEditPost ({ commit, state }, {post}) {
+    axios.put(`/api/post/${post}`, state.editPost)
       .then((response) => {})
   }
 }

@@ -11,7 +11,7 @@ import { mapGetters, mapMutations } from 'vuex'
 
 export default {
   name: 'ArticleCardList',
-  props: ['userName'],
+  props: [],
   components: {
     ArticleCard
   },
@@ -30,8 +30,7 @@ export default {
 
     }),
     updateInitialState () {
-      const user = this.userName
-      this.$store.dispatch('getPostItems', {user})
+      this.$store.dispatch('getPostItems')
     }
   },
   created () {

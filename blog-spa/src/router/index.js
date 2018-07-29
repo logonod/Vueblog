@@ -3,7 +3,6 @@ import Router from 'vue-router'
 import EditPage from '@/components/edit/EditPage.vue'
 import LoginPage from '@/components/login/LoginPage.vue'
 import PostPage from '@/components/post/PostPage.vue'
-import RegisterPage from '@/components/register/RegisterPage.vue'
 import ViewPage from '@/components/view/ViewPage.vue'
 import NotFoundPage from '@/components/NotFoundPage.vue'
 
@@ -17,21 +16,16 @@ export default new Router({
       component: LoginPage
     },
     {
-      path: '/register',
-      component: RegisterPage
+      path: '/',
+      component: ViewPage
     },
     {
-      path: '/:userName',
-      component: ViewPage,
-      props: true
-    },
-    {
-      path: '/:userName/:postID/edit',
+      path: '/:postID/edit',
       component: EditPage,
       props: true
     },
     {
-      path: '/:userName/:postID',
+      path: '/:postID',
       component: PostPage,
       props: true
     },

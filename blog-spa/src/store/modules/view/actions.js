@@ -2,8 +2,8 @@ import axios from 'axios'
 import router from '../../../router'
 
 export default {
-  getPostItems ({ commit }, {user}) {
-    axios.get(`/api/users/${user}`).then((response) => {
+  getPostItems ({ commit }) {
+    axios.get('/api/post/').then((response) => {
       let posts = response.data
       let date
       posts.map((post) => {
@@ -15,14 +15,14 @@ export default {
     })
   },
   removePost ({ commit }, {id}) {
-    axios.delete(`/api/posts/${id}`).then((response) => {
+    axios.delete(`/api/post/${id}`).then((response) => {
       commit('REMOVE_POST_ITEM', {id})
     })
   },
-  createPost ({ commit }, {user}) {
-    axios.post(`/api/users/${user}`).then((response) => {
+  createPost ({ commit }) {
+    axios.post('/api/post/').then((response) => {
       console.log(response.data)
-      router.push({ path: `/${user}/${response.data.ops[0].id}/edit` })
+      router.push({ path: `/${response.data.ops[0].id}/edit` })
     })
   }
 }

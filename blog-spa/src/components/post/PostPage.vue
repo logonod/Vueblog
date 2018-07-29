@@ -8,7 +8,7 @@
       </a>
       <ul class="right-list">
         <li class="list-item">
-          <router-link :to="`/${this.userName}`" class="item-link">
+          <router-link to="/" class="item-link">
             文章
           </router-link>
         </li>
@@ -18,11 +18,6 @@
         <li class="list-item">
           <router-link to="/login" class="item-link">
             登录
-          </router-link>
-        </li>
-        <li class="list-item">
-          <router-link to="/register" class="item-link">
-            注册
           </router-link>
         </li>
         <li class="list-item">
@@ -111,7 +106,7 @@ var GeoPattern = require('geopattern')
 
 export default {
   name: 'PostPage',
-  props: ['userName', 'postID'],
+  props: ['postID'],
   computed: {
     ...mapGetters([
       'post'
@@ -176,9 +171,8 @@ export default {
       }, 16)
     },
     updateInitialState () {
-      const user = this.userName
       const post = this.postID
-      this.$store.dispatch('getPost', {user, post})
+      this.$store.dispatch('getPost', {post})
     }
   },
   created () {

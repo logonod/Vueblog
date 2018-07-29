@@ -1,8 +1,8 @@
 import axios from 'axios'
 
 export default {
-  getPost ({ commit }, {user, post}) {
-    axios.get(`/api/users/${user}/${post}`).then((response) => {
+  getPost ({ commit }, {post}) {
+    axios.get(`/api/post/${post}`).then((response) => {
       let post = response.data
       const date = new Date(post.date)
       post.date =

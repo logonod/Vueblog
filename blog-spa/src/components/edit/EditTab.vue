@@ -23,7 +23,7 @@ import { mapGetters, mapMutations } from 'vuex'
 
 export default {
   name: 'EditTab',
-  props: ['userName', 'postID'],
+  props: ['postID'],
   data () {
     return {
       isEdit: true
@@ -48,13 +48,12 @@ export default {
       this.isEdit = false
     },
     savePost () {
-      const user = this.userName
       const post = this.postID
       if (this.saveState === '保存') {
         this.updateSaveState({saved: '正在保存'})
         this.$store.dispatch('renderMarkdown')
         this.$store.dispatch('renderSummary')
-        this.$store.dispatch('postEditPost', {user, post})
+        this.$store.dispatch('postEditPost', {post})
         this.updateSaveState({saved: '已保存'})
       }
     }

@@ -17,8 +17,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get('/users/:user/:post', (req, res) => {
-  const user = req.params.user;
+app.get('/post/:post', (req, res) => {
   const post = req.params.post;
 
   const MongoClient = require('mongodb').MongoClient;
@@ -27,7 +26,7 @@ app.get('/users/:user/:post', (req, res) => {
   MongoClient.connect(url, { useNewUrlParser: true }, function(err, db) {
       if (err) throw err;
       const dbo = db.db('blogDB');
-      const whereStr = {'user': user, 'id': post};
+      const whereStr = {'id': post};
       dbo.collection("post").findOne(whereStr, function(err, result) {
         if (err) throw err;
         res.setHeader('Cache-Control', 'no-cache');
@@ -37,8 +36,7 @@ app.get('/users/:user/:post', (req, res) => {
   });
 });
 
-app.put('/users/:user/:post', (req, res) => {
-  const user = req.params.user;
+app.put('/post/:post', (req, res) => {
   const post = req.params.post;
 
   const MongoClient = require('mongodb').MongoClient;
@@ -64,18 +62,15 @@ app.put('/users/:user/:post', (req, res) => {
   });
 });
 
-app.post('/users/:user', (req, res) => {
-  const user = req.params.user;
-
+app.post('/post', (req, res) => {
   const MongoClient = require('mongodb').MongoClient;
   const url = 'mongodb://localhost:27017/blogDB';
 
   MongoClient.connect(url, { useNewUrlParser: true }, function(err, db) {
       if (err) throw err;
       const dbo = db.db('blogDB');
-      const whereStr = {"user": user};
       let id = '00001';
-      dbo.collection("post").find(whereStr)
+      dbo.collection("post").find()
       .sort({id: -1}).limit(1)
       .toArray(function(err, result) {
         if (err) throw err;
@@ -84,14 +79,12 @@ app.post('/users/:user', (req, res) => {
           let incrementvalue = (+id) + 1;
           id = ("00000" + incrementvalue).slice(-5);
         }
-        const author = '刘泽宇';
         const newPost = {
           title: "点击修改标题",
           date: new Date(),
-          url: `/${user}/${id}`,
-          user: user,
+          url: `/${id}`,
           id: id,
-          author: author,
+          author: '刘泽宇',
           markdown: '',
           content: '',
           summary: ''
@@ -106,7 +99,7 @@ app.post('/users/:user', (req, res) => {
   });
 });
 
-app.delete('/posts/:post', (req, res) => {
+app.delete('/post/:post', (req, res) => {
   const post = req.params.post;
 
   const MongoClient = require('mongodb').MongoClient;
@@ -132,17 +125,14 @@ app.delete('/posts/:post', (req, res) => {
   });
 });
 
-app.get('/users/:user', (req, res) => {
-  const user = req.params.user;
-
+app.get('/post', (req, res) => {
   const MongoClient = require('mongodb').MongoClient;
   const url = 'mongodb://localhost:27017/blogDB';
 
   MongoClient.connect(url, { useNewUrlParser: true }, function(err, db) {
       if (err) throw err;
       const dbo = db.db('blogDB');
-      const whereStr = {'user': user};
-      dbo.collection("post").find(whereStr).toArray(function(err, result) {
+      dbo.collection("post").find().toArray(function(err, result) {
         if (err) throw err;
         res.setHeader('Cache-Control', 'no-cache');
         res.json(result);

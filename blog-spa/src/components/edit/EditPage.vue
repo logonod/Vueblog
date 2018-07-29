@@ -8,7 +8,7 @@
       </a>
       <ul class="right-list">
         <li class="list-item">
-          <router-link :to="`/${this.userName}`" class="item-link">
+          <router-link to="/" class="item-link">
             文章
           </router-link>
         </li>
@@ -18,11 +18,6 @@
         <li class="list-item">
           <router-link to="/login" class="item-link">
             登录
-          </router-link>
-        </li>
-        <li class="list-item">
-          <router-link to="/register" class="item-link">
-            注册
           </router-link>
         </li>
         <li class="list-item">
@@ -74,7 +69,7 @@
   'app-body': true, 'flex-box': true}">
   <!-- Article START -->
   <article class="post-article">
-    <EditTab :userName="userName" :postID="postID" />
+    <EditTab :postID="postID" />
   </article>
   </main>
   <div :class="{ 'opacity' : topButtonHidden, 'scroll-top': true}"
@@ -107,7 +102,7 @@ var GeoPattern = require('geopattern')
 
 export default {
   name: 'EditPage',
-  props: ['userName', 'postID'],
+  props: ['postID'],
   components: {
     EditTab
   },
@@ -195,9 +190,8 @@ export default {
       }, 16)
     },
     updateInitialState () {
-      const user = this.userName
       const post = this.postID
-      this.$store.dispatch('getEditPost', {user, post})
+      this.$store.dispatch('getEditPost', {post})
     }
   },
   created () {
