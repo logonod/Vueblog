@@ -1,7 +1,7 @@
 <template>
 <div>
   <ArticleCard v-for="post in postItems" :key="post['_id']"
-   :article="post" />
+   :article="post" :logined="logined" />
 </div>
 </template>
 
@@ -23,7 +23,15 @@ export default {
   computed: {
     ...mapGetters([
       'postItems'
-    ])
+    ]),
+    logined () {
+      const token = localStorage.getItem('token')
+      if (token) {
+        return true
+      } else {
+        return false
+      }
+    }
   },
   methods: {
     ...mapMutations({

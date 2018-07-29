@@ -17,6 +17,29 @@ app.use((req, res, next) => {
   next();
 });
 
+const extractToken = (req) => (
+  req.query.token
+);
+
+const authenticatedRoute = ((req, res, next) => {
+  const token = extractToken(req);
+  if (token) {
+    if (token === API_TOKEN) {
+      return next();
+    } else {
+      return res.status(403).json({
+        success: false,
+        error: 'Invalid token provided',
+      });
+    }
+  } else {
+    return res.status(403).json({
+      success: false,
+      error: 'No token provided. Supply token as query param `token`',
+    });
+  }
+});
+
 app.get('/post/:post', (req, res) => {
   const post = req.params.post;
 
@@ -36,7 +59,7 @@ app.get('/post/:post', (req, res) => {
   });
 });
 
-app.put('/post/:post', (req, res) => {
+app.put('/post/:post', authenticatedRoute, (req, res) => {
   const post = req.params.post;
 
   const MongoClient = require('mongodb').MongoClient;
@@ -49,7 +72,9 @@ app.put('/post/:post', (req, res) => {
     const updateObj = {
       title: req.body.title,
       markdown: req.body.markdown,
-      content: req.body.content
+      content: req.body.content,
+      summary: req.body.summary,
+      text: req.body.text
     }
     const updateStr = {$set: updateObj};
     dbo.collection("post").updateOne(whereStr, updateStr,
@@ -62,7 +87,7 @@ app.put('/post/:post', (req, res) => {
   });
 });
 
-app.post('/post', (req, res) => {
+app.post('/post', authenticatedRoute, (req, res) => {
   const MongoClient = require('mongodb').MongoClient;
   const url = 'mongodb://localhost:27017/blogDB';
 
@@ -99,7 +124,7 @@ app.post('/post', (req, res) => {
   });
 });
 
-app.delete('/post/:post', (req, res) => {
+app.delete('/post/:post', authenticatedRoute, (req, res) => {
   const post = req.params.post;
 
   const MongoClient = require('mongodb').MongoClient;
@@ -139,6 +164,18 @@ app.get('/post', (req, res) => {
         db.close();
       });
   });
+});
+
+const API_TOKEN = 'D6W69PRgCoDKgHZGJmRUNA';
+const FAKE_DELAY = 500;
+
+app.post('/login', (req, res) => {
+  setTimeout(() => (
+    res.json({
+      success: true,
+      token: API_TOKEN,
+    })
+  ), FAKE_DELAY);
 });
 
 // // Make things more noticeable in the UI by introducing a fake delay

@@ -12,16 +12,16 @@
             文章
           </router-link>
         </li>
-        <li class="list-item">
+        <li v-if="logined" class="list-item">
           <a href="#" class="item-link active">发布</a>
         </li>
-        <li class="list-item">
+        <li v-if="!logined" class="list-item">
           <router-link to="/login" class="item-link">
             登录
           </router-link>
         </li>
-        <li class="list-item">
-          <a href="#" class="item-link">退出</a>
+        <li v-if="logined" class="list-item">
+          <a href="#" class="item-link" @click="logout">退出</a>
         </li>
       </ul>
       <div class="menu" @click="toggleMenu">
@@ -32,19 +32,20 @@
       <div :class="{ 'open' : menuOpen, 'menu-mask': true}">
         <ul class="menu-list">
           <li class="menu-item">
-            <a href="/" class="menu-link">Home</a>
+            <router-link to="/" class="menu-link">
+              文章
+            </router-link>
           </li>
-          <li class="menu-item">
-            <a href="/tags/" class="menu-link">Tags</a>
+          <li v-if="logined" class="menu-item">
+            <a href="#" class="menu-link active">发布</a>
           </li>
-          <li class="menu-item">
-            <a href="/archives/" class="menu-link">Archives</a>
+          <li v-if="!logined" class="menu-item">
+            <router-link to="/login" class="menu-link">
+              登录
+            </router-link>
           </li>
-          <li class="menu-item">
-            <a href="/project/" class="menu-link">Projects</a>
-          </li>
-          <li class="menu-item">
-            <a href="/about/" class="menu-link">About</a>
+          <li v-if="logined" class="menu-item">
+            <a href="#" class="menu-link" @click="logout">退出</a>
           </li>
         </ul>
       </div>
@@ -125,7 +126,8 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'editPost'
+      'editPost',
+      'token'
     ]),
     postTitleContent: {
       get () {
@@ -134,12 +136,25 @@ export default {
       set (value) {
         this.$store.commit('UPDATE_POST_TITLE', {title: value})
       }
+    },
+    logined () {
+      const token = localStorage.getItem('token')
+      if (token) {
+        return true
+      } else {
+        return false
+      }
     }
   },
   methods: {
     ...mapMutations({
       updateSaveState: 'UPDATE_SAVE_STATE'
     }),
+    logout () {
+      this.$store.dispatch('logout').then(() => {
+        this.$router.push({ path: '/login' })
+      })
+    },
     resetSaveState () {
       this.updateSaveState({saved: '保存'})
     },

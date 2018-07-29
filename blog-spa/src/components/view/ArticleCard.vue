@@ -8,10 +8,12 @@
   <a class="more has-margin-right" :href="article.url" target=”_blank”>
     Read more
   </a>
-  <router-link :to="`${article.url}/edit`" class="more has-margin-right">
+  <router-link v-if="logined" :to="`${article.url}/edit`"
+    class="more has-margin-right">
     Edit
   </router-link>
-  <a class="more has-margin-right" href="#" @click="deleteArticle">Delete</a>
+  <a v-if="logined" class="more has-margin-right"
+    href="#" @click="deleteArticle">Delete</a>
 </article>
 </template>
 
@@ -20,7 +22,7 @@ import { mapGetters, mapMutations, mapActions } from 'vuex'
 
 export default {
   name: 'ArticleCard',
-  props: ['article'],
+  props: ['article', 'logined'],
   components: {
 
   },

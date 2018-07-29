@@ -15,13 +15,14 @@ export default {
     })
   },
   removePost ({ commit }, {id}) {
-    axios.delete(`/api/post/${id}`).then((response) => {
+    const token = window.localStorage.getItem('token')
+    axios.delete(`/api/post/${id}?token=${token}`).then((response) => {
       commit('REMOVE_POST_ITEM', {id})
     })
   },
   createPost ({ commit }) {
-    axios.post('/api/post/').then((response) => {
-      console.log(response.data)
+    const token = window.localStorage.getItem('token')
+    axios.post(`/api/post/?token=${token}`).then((response) => {
       router.push({ path: `/${response.data.ops[0].id}/edit` })
     })
   }

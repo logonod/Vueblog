@@ -16,5 +16,8 @@ export default {
   },
   UPDATE_POST_SUMMARY (state, {summary}) {
     state.editPost.summary = summary
+  },
+  UPDATE_POST_TEXT (state, {text}) {
+    state.editPost.text = text
   }
 }

@@ -31,3 +31,4 @@ node_modules
 yarn-debug.log*
 npm-debug.log*
 yarn-error.log*
+db

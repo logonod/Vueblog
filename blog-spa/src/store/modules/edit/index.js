@@ -12,7 +12,8 @@ const state = {
     author: '',
     markdown: '',
     content: '',
-    summary: ''
+    summary: '',
+    text: ''
   },
   saveState: '保存'
 }

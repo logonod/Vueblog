@@ -40,10 +40,13 @@ export default {
         if (err) throw err
         commit('UPDATE_POST_SUMMARY', {'summary':
           String(file).substring(0, 160) + '...'})
+        commit('UPDATE_POST_TEXT', {'text':
+          String(file)})
       })
   },
   postEditPost ({ commit, state }, {post}) {
-    axios.put(`/api/post/${post}`, state.editPost)
+    const token = window.localStorage.getItem('token')
+    axios.put(`/api/post/${post}?token=${token}`, state.editPost)
       .then((response) => {})
   }
 }
