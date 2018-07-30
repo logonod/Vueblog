@@ -138,6 +138,25 @@ app.get('/post', (req, res) => {
   });
 });
 
+app.get('/search', (req, res) => {
+  const MongoClient = require('mongodb').MongoClient;
+  const url = 'mongodb://localhost:27017/blogDB';
+
+  const keyword = req.query.keyword;
+
+  MongoClient.connect(url, { useNewUrlParser: true }, function(err, db) {
+      if (err) throw err;
+      const dbo = db.db('blogDB');
+      const whereStr = { $text: { $search: keyword} }
+      dbo.collection("post").find(whereStr).toArray(function(err, result) {
+        if (err) throw err;
+        res.setHeader('Cache-Control', 'no-cache');
+        res.json(result);
+        db.close();
+      });
+  });
+});
+
 const API_TOKEN = 'D6W69PRgCoDKgHZGJmRUNA';
 const FAKE_DELAY = 500;
 

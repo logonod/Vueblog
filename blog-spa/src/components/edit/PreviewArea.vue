@@ -18,13 +18,6 @@ import 'highlight.js/styles/tomorrow.css'
 import { mapGetters } from 'vuex'
 import {offset, findAncestor} from '@/lib/misc'
 
-function htmlToElement (html) {
-  var template = document.createElement('template')
-  html = html.trim() // Never return a text node of whitespace as the result
-  template.innerHTML = html
-  return template.content.firstChild
-}
-
 export default {
   name: 'PreviewArea',
   data () {
@@ -105,12 +98,6 @@ export default {
         this.src = '/static/images/error-img.png'
       }
     })
-
-    var strss = '<code class="javascript hljs"><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="number">4</span></span><br><span class="line"><span class="number">5</span></span><br><span class="line"><span class="number">6</span></span><br><span class="line"><span class="number">7</span></span><br><span class="line"><span class="number">8</span></span><br><span class="line"><span class="number">9</span></span><br><span class="line"><span class="number">10</span></span><br><span class="line"><span class="number">11</span></span><br><span class="line"><span class="number">12</span></span><br><span class="line"><span class="number">13</span></span><br></code>'
-
-    var div = htmlToElement(strss)
-    hljs.highlightBlock(div)
-    console.log(div)
   }
 }
 </script>

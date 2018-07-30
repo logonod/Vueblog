@@ -4,6 +4,7 @@ import edit from './modules/edit'
 import login from './modules/login'
 import post from './modules/post'
 import view from './modules/view'
+import search from './modules/search'
 
 Vue.use(Vuex)
 
@@ -12,6 +13,7 @@ export default new Vuex.Store({
     edit,
     login,
     post,
-    view
+    view,
+    search
   }
 })

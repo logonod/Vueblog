@@ -287,7 +287,6 @@ export default {
           block.innerHTML = codeTag.outerHTML
           figure.setAttribute('data-lang', lang.toUpperCase())
           const code = block.querySelector('code')
-          console.log(code)
           hljs.highlightBlock(code)
         })
         const gitment = new Gitment({

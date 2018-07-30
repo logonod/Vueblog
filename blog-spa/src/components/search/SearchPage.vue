@@ -13,7 +13,7 @@
           <i class="icon-search"></i>
         </span>
         <li class="list-item">
-          <router-link to="/" class="item-link active">
+          <router-link to="/" class="item-link">
             文章
           </router-link>
         </li>
@@ -37,7 +37,7 @@
       <div :class="{ 'open' : menuOpen, 'menu-mask': true}">
         <ul class="menu-list">
           <li class="menu-item">
-            <router-link to="/" class="menu-link active">
+            <router-link to="/" class="menu-link">
               文章
             </router-link>
           </li>
@@ -58,7 +58,7 @@
   </header>
   <main :class="{ 'hidden' : contentHidden,
   'app-body': true}">
-    <ArticleCardList />
+    <ResultCardList />
   </main>
   <div :class="{ 'opacity' : topButtonHidden, 'scroll-top': true}"
    @click="scrollToTop">
@@ -79,13 +79,13 @@
 import { mapGetters, mapMutations } from 'vuex'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-import ArticleCardList from './ArticleCardList'
+import ResultCardList from './ResultCardList'
 
 export default {
-  name: 'ViewPage',
+  name: 'SearchPage',
   props: [],
   components: {
-    ArticleCardList
+    ResultCardList
   },
   data () {
     return {
@@ -149,8 +149,10 @@ export default {
       this.$store.dispatch('createPost')
     },
     searchAction () {
-      if (this.searchKeyword.trim() !== '') {
-        this.$router.push({ path: '/search' })
+      if (this.searchKeyword.trim() === '') {
+        this.$router.push({ path: '/' })
+      } else {
+        this.$store.dispatch('getSearchResults', {keyword: this.searchKeyword})
       }
     }
   },

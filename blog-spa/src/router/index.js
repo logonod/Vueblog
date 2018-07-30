@@ -4,6 +4,7 @@ import EditPage from '@/components/edit/EditPage.vue'
 import LoginPage from '@/components/login/LoginPage.vue'
 import PostPage from '@/components/post/PostPage.vue'
 import ViewPage from '@/components/view/ViewPage.vue'
+import SearchPage from '@/components/search/SearchPage.vue'
 import NotFoundPage from '@/components/NotFoundPage.vue'
 
 Vue.use(Router)
@@ -14,6 +15,10 @@ const router = new Router({
     {
       path: '/login',
       component: LoginPage
+    },
+    {
+      path: '/search',
+      component: SearchPage
     },
     {
       path: '/',
