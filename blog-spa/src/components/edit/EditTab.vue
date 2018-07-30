@@ -54,7 +54,6 @@ export default {
         this.$store.dispatch('renderMarkdown')
         this.$store.dispatch('renderSummary')
         this.$store.dispatch('postEditPost', {post})
-        this.updateSaveState({saved: '已保存'})
       }
     }
   },

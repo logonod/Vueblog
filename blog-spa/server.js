@@ -59,34 +59,6 @@ app.get('/post/:post', (req, res) => {
   });
 });
 
-app.put('/post/:post', authenticatedRoute, (req, res) => {
-  const post = req.params.post;
-
-  const MongoClient = require('mongodb').MongoClient;
-  const url = 'mongodb://localhost:27017/blogDB';
-
-  MongoClient.connect(url, { useNewUrlParser: true }, function(err, db) {
-    if (err) throw err;
-    const dbo = db.db("blogDB");
-    const whereStr = {"_id": ObjectId(req.body['_id'])};
-    const updateObj = {
-      title: req.body.title,
-      markdown: req.body.markdown,
-      content: req.body.content,
-      summary: req.body.summary,
-      text: req.body.text
-    }
-    const updateStr = {$set: updateObj};
-    dbo.collection("post").updateOne(whereStr, updateStr,
-     function(err, result) {
-        if (err) throw err;
-        res.setHeader('Cache-Control', 'no-cache');
-        res.json(result);
-        db.close();
-    });
-  });
-});
-
 app.post('/post', authenticatedRoute, (req, res) => {
   const MongoClient = require('mongodb').MongoClient;
   const url = 'mongodb://localhost:27017/blogDB';
@@ -176,6 +148,36 @@ app.post('/login', (req, res) => {
       token: API_TOKEN,
     })
   ), FAKE_DELAY);
+});
+
+app.put('/post/:post', authenticatedRoute, (req, res) => {
+  setTimeout(() => {
+    const post = req.params.post;
+
+    const MongoClient = require('mongodb').MongoClient;
+    const url = 'mongodb://localhost:27017/blogDB';
+
+    MongoClient.connect(url, { useNewUrlParser: true }, function(err, db) {
+      if (err) throw err;
+      const dbo = db.db("blogDB");
+      const whereStr = {"_id": ObjectId(req.body['_id'])};
+      const updateObj = {
+        title: req.body.title,
+        markdown: req.body.markdown,
+        content: req.body.content,
+        summary: req.body.summary,
+        text: req.body.text
+      }
+      const updateStr = {$set: updateObj};
+      dbo.collection("post").updateOne(whereStr, updateStr,
+       function(err, result) {
+          if (err) throw err;
+          res.setHeader('Cache-Control', 'no-cache');
+          res.json(result);
+          db.close();
+      });
+    });
+  }, FAKE_DELAY);
 });
 
 // // Make things more noticeable in the UI by introducing a fake delay

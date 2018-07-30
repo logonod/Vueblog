@@ -47,6 +47,6 @@ export default {
   postEditPost ({ commit, state }, {post}) {
     const token = window.localStorage.getItem('token')
     axios.put(`/api/post/${post}?token=${token}`, state.editPost)
-      .then((response) => {})
+      .then((response) => { commit('UPDATE_SAVE_STATE', {'saved': '已保存'}) })
   }
 }
