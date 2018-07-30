@@ -21,6 +21,10 @@ const router = new Router({
       component: SearchPage
     },
     {
+      path: '/NotFound',
+      component: NotFoundPage
+    },
+    {
       path: '/',
       component: ViewPage
     },

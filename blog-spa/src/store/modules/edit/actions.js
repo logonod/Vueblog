@@ -1,4 +1,5 @@
 import axios from 'axios'
+import router from '../../../router'
 
 const highlight = require('hexo-util/lib/highlight')
 
@@ -23,10 +24,14 @@ export default {
   getEditPost ({ commit }, {post}) {
     axios.get(`/api/post/${post}`).then((response) => {
       let editPost = response.data
-      const date = new Date(editPost.date)
-      editPost.date =
-        `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
-      commit('UPDATE_EDIT_POST', {editPost})
+      if (editPost) {
+        const date = new Date(editPost.date)
+        editPost.date =
+          `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+        commit('UPDATE_EDIT_POST', {editPost})
+      } else {
+        router.push({ path: '/NotFound' })
+      }
     })
   },
   renderMarkdown ({ commit, state }) {
